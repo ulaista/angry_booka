@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = "debian-openssl-3.0.x"
+}
+
+datasource db {
+    provider = "sqlite"
+    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    // Further reading:
+    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id          String    @id @default(cuid())
+    name        String    @unique
+    email       String?   @unique
+    password    String
+    basket      Basket?
+    reviews     Review[]
+}
+
+model Basket {
+    id     String       @id @default(cuid())
+    userId String       @unique
+    user   User         @relation(fields: [userId], references: [id])
+    books  BooksOnBaskets[]
+}
+
+model Book {
+    id                  String      @id @default(cuid())
+    title               String
+    price               Int
+    img                 String
+    publication_date    DateTime
+    description         String
+    authors             AuthorsOnBooks[]
+    baskets             BooksOnBaskets[]
+    genres              GenresOnBooks[]
+    reviews             Review[]
+}
+
+model BooksOnBaskets {
+    basket       Basket     @relation(fields: [basketId], references: [id])
+    basketId     String
+    book         Book       @relation(fields: [bookId], references: [id])
+    bookId       String
+    addedAt      DateTime   @default(now())
+    addedBy      String
+
+    @@id([basketId, bookId])
+}
+
+model Author {
+    id           String @id @default(cuid())
+    name         String
+    dateOfBirth  DateTime?
+    books        AuthorsOnBooks[] 
+}
+
+model AuthorsOnBooks {
+    book        Book    @relation(fields: [bookId], references: [id])
+    bookId      String
+    author      Author  @relation(fields: [authorId], references: [id])
+    authorId    String
+    
+    @@id([bookId, authorId])
+}
+
+model Genre {
+    id    String  @id @default(cuid())
+    name  String
+    books GenresOnBooks[]
+}
+
+model GenresOnBooks {
+    book       Book   @relation(fields: [bookId], references: [id])
+    bookId     String
+    genre      Genre  @relation(fields: [genreId], references: [id])
+    genreId    String
+    
+    @@id([bookId, genreId])
+}
+
+model Review {
+    id        String    @id @default(cuid())
+    text      String
+    rating    Int
+    createdAt DateTime  @default(now())
+    book      Book      @relation(fields: [bookId], references: [id])
+    bookId    String
+    user      User      @relation(fields: [userId], references: [id])
+    userId    String
+}
+
+model Quote {
+    id      String  @id @default(cuid())
+    img     String
+    text    String
+    author  String
+}
