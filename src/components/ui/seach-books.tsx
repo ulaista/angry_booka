@@ -7,7 +7,7 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { BookCoverDialogContent } from "./book-cover";
 import Image from "next/image";
 
-export function SearchBooks() {
+export function SearchBooks({ disableSearchBar }: { disableSearchBar?: boolean }) {
   const [input, setInput] = React.useState<string>();
 
   const query = api.books.findBooks.useQuery({
@@ -15,19 +15,19 @@ export function SearchBooks() {
   });
 
   return (
-    <>
-      <Input onChange={(event) => setInput(event.currentTarget.value)} />
-      <div className="absolute">
+    <div className="relative">
+      {!disableSearchBar && <Input onChange={(event) => setInput(event.currentTarget.value)} className="bg-white/80 text-black" />}
+      <div className="absolute right-0 z-50 transition-all">
         <Card
           className={cn(
-            "relative right-36 top-4 w-[350px] transition-all",
-            (input?.length ?? 0) > 5 ? "opacity-100" : "opacity-0",
+            "relative top-4 w-[350px] transition-all duration-200",
+            input?.length ? "opacity-100" : "opacity-0",
           )}
         >
           <CardHeader>
             <CardTitle>Книги по запросу {`"${input}"`}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2">
+          <CardContent className="flex flex-col gap-2 transition-[height]">
             {query?.data?.map(({ authors, ...book }) => (
               <Dialog key={book.id}>
                 <DialogTrigger asChild>
@@ -40,14 +40,14 @@ export function SearchBooks() {
                       className="p-2"
                     />
                     <div className="flex max-w-fit flex-col justify-evenly">
-                      <h4 className="truncate text-nowrap text-sm font-bold w-52">
+                      <h4 className="w-52 truncate text-nowrap text-sm font-bold">
                         {book.title}
                       </h4>
-                      <p className="truncate text-sm font-normal w-52">
+                      <p className="w-52 truncate text-sm font-normal">
                         {book.description}
                       </p>
-                      <p className="truncate text-sm font-normal w-52">
-                        {authors.find(a => a.bookId === book.id)?.author.name}
+                      <p className="w-52 truncate text-sm font-normal">
+                        {authors.find((a) => a.bookId === book.id)?.author.name}
                       </p>
                     </div>
                   </div>
@@ -61,6 +61,6 @@ export function SearchBooks() {
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   );
 }

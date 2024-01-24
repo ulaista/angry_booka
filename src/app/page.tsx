@@ -14,7 +14,7 @@ import {
   type CarouselApi,
 } from "~/components/ui/carousel";
 import { Input } from "~/components/ui/input";
-import { SearchBooks } from "~/components/ui/seach-books";
+import { Navbar } from "~/components/ui/navbar";
 
 const characterList = [
   {
@@ -64,25 +64,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/bg-main.png')] bg-cover bg-no-repeat text-white">
-      <div className="flex w-full items-center gap-12 px-8 text-lg font-medium uppercase transition-all [&>a:hover]:cursor-pointer [&>a:hover]:font-bold">
-        <Image
-          src={"/logo_white.png"}
-          width={128}
-          height={128}
-          alt="logo"
-          onClick={() => router.push("/")}
-          className="hover:cursor-pointer"
-        />
-        <span className="grow" />
-        <a onClick={() => router.push("/about-us")}>О нас</a>
-        <a onClick={() => router.push("/library")}>Отложенные</a>
-        <a onClick={() => router.push("/library")}>Библиотека</a>
-        <a onClick={() => router.push("/personal-cabinet")}>Личный Кабинет</a>
-        <span className="grow" />
-        <div id="search-bar">
-          <SearchBooks />
-        </div>
-      </div>
+      <Navbar />
 
       <div className="flex justify-between">
         <div className="h-auto max-h-fit w-1/2 ">

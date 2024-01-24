@@ -4,6 +4,7 @@ import { CrumpledPaperIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CartBookCover } from "~/components/ui/book-cover";
+import { Navbar } from "~/components/ui/navbar";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { selectCart } from "~/lib/features/cart/cartSlice";
 import { useAppSelector } from "~/lib/hooks";
@@ -15,21 +16,7 @@ export default function Page() {
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/assets/pc_bg.jpg')] bg-cover bg-no-repeat text-white">
       <div className="min-h-screen backdrop-blur-xl">
-        <div className="flex w-full items-center gap-12 px-8 text-lg font-medium uppercase transition-all [&>a:hover]:cursor-pointer [&>a:hover]:font-bold">
-          <a onClick={() => router.push("/about-us")}>О нас</a>
-          <a onClick={() => router.push("/library")}>Библиотека</a>
-          <a className="border-b-2 font-bold">Личный Кабинет</a>
-          <span className="grow-[1]" />
-          <Image
-            className="hover:cursor-pointer"
-            src={"/logo_white.png"}
-            width={128}
-            height={128}
-            alt="logo"
-            onClick={() => router.push("/")}
-          />
-          <span className="grow-[2]" />
-        </div>
+        <Navbar />
 
         <div className="flex">
           <div className="flex w-1/2 flex-col items-center justify-center">
@@ -122,7 +109,11 @@ export default function Page() {
                 </ScrollArea>
               )}
               <span className="grow" />
-              <h4 className="text-3xl">ИТОГ: 0 руб.</h4>
+              <h4 className="text-3xl">
+                ИТОГ: {' '}
+                {Object.values(books).reduce((a, b) => a + b.book.price, 0)}{" "}
+                руб.
+              </h4>
               <h4 className="mb-12 text-3xl">ПЕРЕЙТИ К ОФОРМЛЕНИЮ</h4>
             </div>
           </div>

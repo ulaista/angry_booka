@@ -58,7 +58,8 @@ export const booksRouter = createTRPCRouter({
               author: true
             }
           }
-        }
+        },
+        take: 4,
       });
     }),
 

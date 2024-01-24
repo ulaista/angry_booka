@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "./dialog";
 import { Button } from "./button";
-import { add, remove } from "~/lib/features/cart/cartSlice";
-import { useAppDispatch } from "~/lib/hooks";
+import { add, remove, selectCart } from "~/lib/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "~/lib/hooks";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -26,12 +26,39 @@ import {
   AlertDialogFooter,
 } from "./alert-dialog";
 import type { Book, Author } from "@prisma/client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export function BookCover({ book, author }: { book: Book; author: Author }) {
+const highlight = (str: string, input?: string) => {
+  if (!input) return str;
+
+  const regex = new RegExp(`(${input})`, "gi");
+  const parts = str.split(regex);
+
+  return parts.map((part, i) =>
+    part.toLowerCase() === input.toLowerCase() ? (
+      <span key={i} className="bg-yellow-200 text-black">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+};
+
+export function BookCover({
+  book,
+  author,
+  highlightInput,
+}: {
+  book: Book;
+  author: Author;
+  highlightInput?: string;
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex flex-col items-center">
+        <div className="group flex flex-col items-center">
           <div className="relative shadow-md">
             <div className="absolute -left-8 top-4 z-0 h-52 w-32 rounded-lg bg-black blur-md" />
             <Image
@@ -43,23 +70,43 @@ export function BookCover({ book, author }: { book: Book; author: Author }) {
             />
           </div>
           <p className="relative mt-2 w-full max-w-40 truncate text-start font-semibold">
-            {book.title}
+            {highlight(book.title, highlightInput)}
           </p>
-          <p className="relative w-full max-w-40 truncate text-start font-semibold text-gray-500">
-            {author.name},
+          <p className="relative w-full max-w-40 truncate text-start font-semibold text-gray-500 transition-all group-hover:text-white/90">
+            {highlight(author.name, highlightInput)},
           </p>
-          <p className="relative w-full max-w-40 truncate text-start font-semibold text-gray-500">
+          <p className="relative w-full max-w-40 truncate text-start font-semibold text-gray-500 transition-all group-hover:text-white/90">
             {book.publication_date.getFullYear()}
+          </p>
+
+          <p className="absolute z-20 -ml-4 -mt-4 w-full max-w-40 truncate text-start font-semibold text-gray-300 transition-all group-hover:opacity-30">
+            <p className="w-min rounded-xl bg-black/70 px-2 py-1">
+              {book.price} RUB
+            </p>
           </p>
         </div>
       </DialogTrigger>
-      <BookCoverDialogContent author={author} book={book} />
+      <BookCoverDialogContent
+        author={author}
+        book={book}
+        highlightInput={highlightInput}
+      />
     </Dialog>
   );
 }
 
-export function BookCoverDialogContent({ book, author }: { book: Book; author: Author }) {
+export function BookCoverDialogContent({
+  book,
+  author,
+  highlightInput,
+}: {
+  book: Book;
+  author: Author;
+  highlightInput?: string;
+}) {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const books = useAppSelector(selectCart);
 
   return (
     <DialogContent className="border-gray-600 bg-zinc-900 text-white sm:max-w-[525px]">
@@ -72,29 +119,64 @@ export function BookCoverDialogContent({ book, author }: { book: Book; author: A
             alt="book1"
             className="mb-4 min-w-32"
           />
-          <p className="text-sm text-white/70">{author.name}</p>
+          <p className="text-sm text-white/70">
+            {highlight(author.name, highlightInput)}
+          </p>
           <p className="text-sm text-white/70">
             {book.publication_date.getFullYear()}
           </p>
         </div>
         <div className="space-y-5">
-          <DialogTitle>{book.title}</DialogTitle>
-          <DialogDescription>{book.description}</DialogDescription>
+          <DialogTitle>{highlight(book.title, highlightInput)}</DialogTitle>
+          <DialogDescription>
+            {highlight(book.description, highlightInput)}
+          </DialogDescription>
         </div>
       </DialogHeader>
       <DialogFooter>
-        <Button type="submit" variant={"secondary"} disabled>
-          Купить
-        </Button>
         <DialogClose asChild>
           <Button
             type="submit"
             variant={"secondary"}
             onClick={() => {
+              toast.success(
+                "Покупка выполнена Дон Карло! Книга прилетит вам по птичей почте",
+              );
+            }}
+          >
+            Купить ({book.price} RUB)
+          </Button>
+        </DialogClose>
+        <DialogClose asChild>
+          <Button
+            type="submit"
+            variant={"secondary"}
+            onClick={() => {
+              toast(`"${book.title}" добавлена в корзину!`, {
+                cancel: {
+                  label: "Отменить",
+                  onClick() {
+                    dispatch(remove(book));
+                  },
+                },
+                action: {
+                  label: "Перейти в корзину",
+                  onClick() {
+                    router.push("/personal-cabinet");
+                  },
+                },
+                className: "flex flex-col",
+                classNames: {
+                  cancelButton:
+                    "w-full text-center !text-white font-bold !bg-red-500 py-4",
+                  actionButton: "w-full text-center py-4 font-bold",
+                },
+              });
               dispatch(add({ book, author }));
             }}
           >
-            Добавить в корзину
+            Добавить в корзину (
+            {Object.values(books).reduce((a, b) => a + b.book.price, 0)} RUB)
           </Button>
         </DialogClose>
       </DialogFooter>
@@ -152,7 +234,7 @@ export function CartBookCover({
           <AlertDialogAction
             className="bg-red-600"
             onClick={() => {
-              dispatch(remove(book.id));
+              dispatch(remove(book.id)); //
             }}
           >
             Удалить

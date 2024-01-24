@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Navbar } from "~/components/ui/navbar";
 import { cn } from "~/lib/utils";
 
 export default function Page() {
@@ -9,21 +10,7 @@ export default function Page() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/bg-main.png')] bg-cover bg-no-repeat text-white">
-      <div className="flex w-full items-center gap-12 px-8 text-lg font-medium uppercase transition-all [&>a:hover]:cursor-pointer [&>a:hover]:font-bold">
-        <Image
-          src={"/logo_white.png"}
-          width={128}
-          height={128}
-          alt="logo"
-          onClick={() => router.push("/")}
-          className="hover:cursor-pointer"
-        />
-        <span className="grow" />
-        <a className="border-b-2 font-bold">О нас</a>
-        <a onClick={() => router.push("/library")}>Библиотека</a>
-        <a onClick={() => router.push("/personal-cabinet")}>Личный Кабинет</a>
-        <span className="grow" />
-      </div>
+      <Navbar />
 
       <div className="flex">
         <div className="absolute h-[800px] w-full">
@@ -77,7 +64,7 @@ export default function Page() {
           <TgCard
             className="left-[320px] top-12"
             name="Никита Фиськович."
-            pos="raznorabochiy."
+            pos="raznorabociy."
             tgUsername="Omniabene"
           />
           <TgCard
