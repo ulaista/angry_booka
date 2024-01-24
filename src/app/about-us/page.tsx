@@ -64,7 +64,7 @@ export default function Page() {
           <TgCard
             className="left-[320px] top-12"
             name="Никита Фиськович."
-            pos="raznorabociy."
+            pos="raznorabochiy."
             tgUsername="Omniabene"
           />
           <TgCard

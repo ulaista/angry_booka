@@ -21,7 +21,7 @@ export default function Page() {
   return (
     <main className="flex min-h-screen justify-between text-white">
       <div className="min-h-full w-full bg-[url('/assets/pc_bg.jpg')] bg-contain">
-        <Navbar disableSearchBar />
+        <Navbar />
         
         <div className="container mt-8">
           <SearchBookInput
