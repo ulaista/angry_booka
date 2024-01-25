@@ -56,9 +56,9 @@ export function BookCover({
   highlightInput?: string;
 }) {
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger asChild>
-        <div className="group flex flex-col items-center">
+        <div className="group flex flex-col items-center hover:cursor-pointer">
           <div className="relative shadow-md">
             <div className="absolute -left-8 top-4 z-0 h-52 w-32 rounded-lg bg-black blur-md" />
             <Image

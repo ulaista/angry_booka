@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/bg-main.png')] bg-cover bg-no-repeat text-white">
-      <Navbar />
+      <Navbar disableSearchBar />
 
       <div className="flex justify-between">
         <div className="h-auto max-h-fit w-1/2 ">
