@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/bg-main.png')] bg-cover bg-no-repeat text-white">
-      <Navbar />
+      <Navbar disableSearchBar/>
 
       <div className="flex">
         <div className="absolute h-[800px] w-full">

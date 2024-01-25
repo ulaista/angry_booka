@@ -129,7 +129,8 @@ export function BookCoverDialogContent({
         <div className="space-y-5">
           <DialogTitle>{highlight(book.title, highlightInput)}</DialogTitle>
           <DialogDescription>
-            {highlight(book.description, highlightInput)}
+            {book.description}
+            {/*{highlight(book.description, highlightInput)}*/}
           </DialogDescription>
         </div>
       </DialogHeader>

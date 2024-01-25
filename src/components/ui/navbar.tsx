@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { SearchBooks } from "./seach-books";
+import { SearchBooks } from "./search-books";
 
-// export function Navbar({ disableSearchBar }: { disableSearchBar?: boolean }) {
-  export function Navbar() {
+export function Navbar({ disableSearchBar }: { disableSearchBar?: boolean }) {
+  // export function Navbar() {
   const router = useRouter();
 
   return (
@@ -21,9 +21,9 @@ import { SearchBooks } from "./seach-books";
       <a onClick={() => router.push("/library")}>Библиотека</a>
       <a onClick={() => router.push("/personal-cabinet")}>Личный Кабинет</a>
       <span className="grow" />
-      {/* <div id="search-bar">
+       <div id="search-bar">
         <SearchBooks disableSearchBar={disableSearchBar} />
-      </div> */}
+      </div>
     </div>
   );
 }

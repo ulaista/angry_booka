@@ -14,9 +14,9 @@ export default function Page() {
   const books = useAppSelector(selectCart);
 
   return (
-    <main className="flex min-h-screen flex-col justify-between bg-[url('/assets/pc_bg.jpg')] bg-cover bg-no-repeat text-white">
+    <main className="flex min-h-screen flex-col justify-between bg-gradient-to-r from-black to-[#422006] bg-no-repeat text-white">
       <div className="min-h-screen backdrop-blur-xl">
-        <Navbar />
+        <Navbar disableSearchBar/>
 
         <div className="flex">
           <div className="flex w-1/2 flex-col items-center justify-center">

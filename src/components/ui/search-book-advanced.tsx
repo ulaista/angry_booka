@@ -10,20 +10,20 @@ export function SearchBookInput({
   activeGenres,
   onGenreClick,
   inputValue,
-  onInputChnage,
+  onInputChange,
 }: {
   inputValue: string;
   genres?: Genre[];
   activeGenres?: Genre[];
   onGenreClick(genre: Genre): void;
-  onInputChnage(input: string): void;
+  onInputChange(input: string): void;
 }) {
   return (
     <div>
       <Input
         value={inputValue}
         className="bg-white/80 text-black"
-        onChange={(event) => onInputChnage(event.target.value)}
+        onChange={(event) => onInputChange(event.target.value)}
       />
       <div className="m-4 grid w-full auto-cols-max grid-flow-col justify-center gap-4">
         {genres?.map((genre) => (
