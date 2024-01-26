@@ -22,6 +22,7 @@ export function SearchBookInput({
     <div>
       <Input
         value={inputValue}
+        placeholder="Поиск книг..."
         className="bg-white/80 text-black"
         onChange={(event) => onInputChange(event.target.value)}
       />
