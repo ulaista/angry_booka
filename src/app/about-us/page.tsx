@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/bg-main.png')] bg-cover bg-no-repeat text-white">
-      <Navbar disableSearchBar/>
+      <Navbar />
 
       <div className="flex">
         <div className="absolute h-[800px] w-full">
@@ -64,7 +64,7 @@ export default function Page() {
           <TgCard
             className="left-[320px] top-12"
             name="Никита Фиськович."
-            pos="raznorabochiy."
+            pos="raznorabociy."
             tgUsername="Omniabene"
           />
           <TgCard
@@ -117,6 +117,7 @@ function TgCard({
 }) {
   return (
     <div
+      id="team-member-card"
       className={cn("group absolute hover:cursor-pointer", className)}
       onClick={() => {
         window.open(`https://t.me/${tgUsername}`, "_blank")?.focus();

@@ -10,16 +10,15 @@ import { selectCart } from "~/lib/features/cart/cartSlice";
 import { useAppSelector } from "~/lib/hooks";
 
 export default function Page() {
-  const router = useRouter();
   const books = useAppSelector(selectCart);
 
   return (
-    <main className="flex min-h-screen flex-col justify-between bg-gradient-to-r from-black to-[#422006] bg-no-repeat text-white">
+    <main className="flex min-h-screen flex-col justify-between bg-[url('/assets/pc_bg.jpg')] bg-cover bg-no-repeat text-white">
       <div className="min-h-screen backdrop-blur-xl">
-        <Navbar disableSearchBar/>
+        <Navbar />
 
         <div className="flex">
-          <div className="flex w-1/2 flex-col items-center justify-center">
+          <div className="flex w-1/2 flex-col items-center justify-center" id="reader-ticket">
             <h4 className="mb-8 text-4xl">МОЙ ЧИТАТЕЛЬСКИЙ БИЛЕТ</h4>
             <div className="flex flex-col gap-8 bg-gradient-to-r from-zinc-950 to-zinc-600 p-8 px-8">
               <div className="flex">

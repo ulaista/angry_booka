@@ -13,24 +13,28 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "~/components/ui/carousel";
-import { Input } from "~/components/ui/input";
 import { Navbar } from "~/components/ui/navbar";
 
 const characterList = [
   {
     image: "/severus_transparent.png",
-    quote: `Ум — не книга, которую можно раскрыть, когда заблагорассудится. Мысли не напечатаны внутри черепа, чтобы их мог изучить всякий любопытный. Мозг — сложный и многослойный орган — по крайней мере, у большинства людей... `,
-    quoteAuthor: '-Северус Снегг, "Гарри Потный и Ордер Феникса"',
+    quote: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+    porta non neque vehicula luctus. Fusce fringilla mauris et velit
+    convallis, id lobortis leo volutpat. Ut pretium erat et ipsum
+    condimentum, eu porttitor tellus bibendum. Duis sit amet sem
+    augue. Maecenas aliquet scelerisque augue, at dapibus ligula
+    congue non. `,
+    quoteAuthor: '`-Северус Снегг, "Гарри Потный и Ордер Феникса"',
   },
   {
     image: "/toothless-dragon-toothless.gif",
-    quote: `Позвольте мне объяснить: есть драконы, а есть драконы. Драконы на несколько тысячелетий старше драконов и намного крупнее `,
-    quoteAuthor: '- Рик Риордан, "Перси Джексон и последний олимпиец"',
+    quote: `If you're good at something, never do it for free!`,
+    quoteAuthor: "Jerma",
   },
   {
-    image: "/76375-little-text-sticker-prince-child-the-drawing.png",
-    quote: `– Вы красивые, но пустые, – продолжал Маленький принц. – Ради вас не захочется умереть. Конечно, случайный прохожий, поглядев на мою розу, скажет, что она точно такая же, как вы. Но мне она одна дороже всех вас. Ведь это её, а не вас я поливал каждый день. Её, а не вас накрывал стеклянным колпаком. Её загораживал ширмой, оберегая от ветра. Для неё убивал гусениц, только двух или трех оставил, чтобы вывелись бабочки. Я слушал, как она жаловалась и как хвастала, я прислушивался к ней, даже когда она умолкала. Она – моя.`,
-    quoteAuthor: 'Антуан де Сент-Экзюпери,"Маленький принц"',
+    image: "/markiplier.png",
+    quote: `Sometimes you must reach beyond yourself to reach yourself within.. yourself. What I do is temporary but what I leave behind is forever. Life is hard,Should you be too?`,
+    quoteAuthor: "Markiplier",
   },
 ];
 
@@ -59,10 +63,10 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-[url('/bg-main.png')] bg-cover bg-no-repeat text-white">
-      <Navbar disableSearchBar />
+      <Navbar />
 
       <div className="flex justify-between">
-        <div className="h-auto max-h-fit w-1/2 ">
+        <div className="h-auto max-h-fit w-1/2" id="carousel">
           <Carousel setApi={setApi}>
             <CarouselContent>
               {characterList.map(({ image }, i) => (
@@ -87,9 +91,9 @@ export default function Home() {
               ЦИТАТА НЕДЕЛИ
             </h4>
 
-            <p className="pb-12">{characterList[current - 1]?.quote}</p>
+            <p className="pb-12" id="quote">{characterList[current - 1]?.quote}</p>
 
-            <p className="w-full text-end">
+            <p className="w-full text-end" id="quoteAuthor">
               {characterList[current - 1]?.quoteAuthor}
             </p>
           </div>
@@ -100,16 +104,19 @@ export default function Home() {
             </h4>
 
             <div className="mb-12 flex gap-12">
-              {top3Books.data?.map(({...book }, i) => {
+              {top3Books.data?.map(({ authors, ...book }, i) => {
                 return (
                   <BookCover
                     key={i}
                     book={book}
-                    author={book.authors[0]?.author ?? {
-                      name: "None",
-                      id: "none",
-                      dateOfBirth: new Date("0000"),
-                    }}
+                    author={
+                      authors.find((author) => author.bookId === book.id)
+                        ?.author ?? {
+                        name: "None",
+                        id: "none",
+                        dateOfBirth: new Date("0000"),
+                      }
+                    }
                   />
                 );
               })}

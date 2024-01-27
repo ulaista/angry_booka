@@ -56,9 +56,9 @@ export function BookCover({
   highlightInput?: string;
 }) {
   return (
-    <Dialog >
+    <Dialog>
       <DialogTrigger asChild>
-        <div className="group flex flex-col items-center hover:cursor-pointer">
+        <div className="group flex flex-col items-center" id="book-cover">
           <div className="relative shadow-md">
             <div className="absolute -left-8 top-4 z-0 h-52 w-32 rounded-lg bg-black blur-md" />
             <Image
@@ -76,7 +76,7 @@ export function BookCover({
             {highlight(author.name, highlightInput)},
           </p>
           <p className="relative w-full max-w-40 truncate text-start font-semibold text-gray-500 transition-all group-hover:text-white/90">
-            {book.publication_date.getFullYear()}
+            {new Date(book.publication_date).getFullYear()}
           </p>
 
           <p className="absolute z-20 -ml-4 -mt-4 w-full max-w-40 truncate text-start font-semibold text-gray-300 transition-all group-hover:opacity-30">
@@ -111,7 +111,7 @@ export function BookCoverDialogContent({
   return (
     <DialogContent className="border-gray-600 bg-zinc-900 text-white sm:max-w-[525px]">
       <DialogHeader className="flex flex-row gap-4">
-        <div className="w-full">
+        <div id="book-cover" className="w-full">
           <Image
             src={book.img}
             width={128}
@@ -123,14 +123,13 @@ export function BookCoverDialogContent({
             {highlight(author.name, highlightInput)}
           </p>
           <p className="text-sm text-white/70">
-            {book.publication_date.getFullYear()}
+            {new Date(book.publication_date).getFullYear()}
           </p>
         </div>
         <div className="space-y-5">
           <DialogTitle>{highlight(book.title, highlightInput)}</DialogTitle>
           <DialogDescription>
-            {book.description}
-            {/*{highlight(book.description, highlightInput)}*/}
+            {highlight(book.description, highlightInput)}
           </DialogDescription>
         </div>
       </DialogHeader>
@@ -215,7 +214,7 @@ export function CartBookCover({
             {author.name},
           </p>
           <p className="relative w-full max-w-40 truncate text-start font-semibold text-gray-500">
-            {book.publication_date.getFullYear()}
+            {new Date(book.publication_date).getFullYear()}
           </p>
         </div>
       </AlertDialogTrigger>

@@ -1,5 +1,6 @@
 "use client";
 
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Badge } from "./badge";
 import { Input } from "./input";
 
@@ -10,21 +11,22 @@ export function SearchBookInput({
   activeGenres,
   onGenreClick,
   inputValue,
-  onInputChange,
+  onInputChnage,
 }: {
   inputValue: string;
   genres?: Genre[];
   activeGenres?: Genre[];
   onGenreClick(genre: Genre): void;
-  onInputChange(input: string): void;
+  onInputChnage(input: string): void;
 }) {
   return (
-    <div>
+    <div className="relative">
+      <MagnifyingGlassIcon className="absolute right-2 top-1.5 h-6 w-6 stroke-black" />
       <Input
+        id="search-input"
         value={inputValue}
-        placeholder="Поиск книг..."
         className="bg-white/80 text-black"
-        onChange={(event) => onInputChange(event.target.value)}
+        onChange={(event) => onInputChnage(event.target.value)}
       />
       <div className="m-4 grid w-full auto-cols-max grid-flow-col justify-center gap-4">
         {genres?.map((genre) => (
